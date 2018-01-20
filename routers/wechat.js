@@ -9,7 +9,7 @@ function getTicket() {
 
 //
 async function ticket(req, res) {
-	var result = await wechatUtil.getTicket();
+	var result = await wechatUtil.getTicket(req.params.url);
 	res.send({
 		isSuccess: true,
 		result: result

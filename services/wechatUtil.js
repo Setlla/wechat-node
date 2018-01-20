@@ -16,7 +16,7 @@ async function getToken() {
 }
 
 //
-async function getTicket() {
+async function getTicket(url) {
 	var access_token = await getToken();
 //	let token = cache.get('token');
 	
@@ -25,7 +25,7 @@ async function getTicket() {
 		url: `https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`,
 	})
 	
-	return sign(result.data.ticket, 'http://res.wscainiao.com/welfare');
+	return sign(result.data.ticket, url);
 }
 
 
