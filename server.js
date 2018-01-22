@@ -3,7 +3,7 @@ var restify = require('restify');
 var router = require("./routerList.js");
 
 function onListened() {
-	console.log('Node server starts at 8080.');
+	console.log('Node server starts at 443.');
 }
 
 function onConnected(req, res) {
@@ -14,4 +14,4 @@ server.use(restify.queryParser());
 server.use(restify.bodyParser());
 server.post('/:name', onConnected);
 server.get('/:name', onConnected);
-server.listen(8080, onListened);
+server.listen(443, onListened);
