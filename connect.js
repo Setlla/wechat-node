@@ -1,6 +1,8 @@
-var Sequelize=require("sequelize");
-var sequelize = new Sequelize('tiaozao', 'root', 'Zjb901702', {
-	host: 'rm-wz9356mzg6pyvry5ko.mysql.rds.aliyuncs.com',
+const Sequelize=require("sequelize");
+
+var sequelize = new Sequelize('wechat', 'root', '123456', {
+	host: '120.78.76.172',
 	dialect: 'mysql'
 });
+
 module.exports=sequelize;

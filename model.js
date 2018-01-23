@@ -1,107 +1,29 @@
-var Sequelize=require("sequelize");
-var sequelize=require("./connect.js");
+const Sequelize = require("sequelize");
+const sequelize = require("./connect.js");
+
 //个人中心接口
 var user = sequelize.define('user', {
-		phone:Sequelize.STRING,
-		email:Sequelize.STRING,
-		password:Sequelize.STRING,
-		headImage:Sequelize.STRING,
-	    	name:Sequelize.STRING,
-	    	gender:Sequelize.STRING,
-	    	address:Sequelize.STRING
-});	
-//产品列表接口
-var product = sequelize.define('product', {
-		Image:Sequelize.STRING,
-    		Name:Sequelize.STRING,
-  		Carriage:Sequelize.STRING,
-  		Destination:Sequelize.STRING,
-  		Status:Sequelize.STRING,
-  		CurPrice:Sequelize.STRING,
-  		OldPrice:Sequelize.STRING,
-  		Des:Sequelize.STRING,
-  		ShopName:Sequelize.STRING,
-  		BrowseTimes:Sequelize.INTEGER,
-  		isDelete: Sequelize.INTEGER,
-  		isHot: Sequelize.INTEGER,
-  		isRecommend: Sequelize.INTEGER,
-  		typeId: Sequelize.INTEGER
-});
-//购物车
-var shopCar = sequelize.define('shopCar', {
-    		ProductId: Sequelize.INTEGER,
-  		UserId:Sequelize.STRING,
-  		ProductNumber:Sequelize.STRING,
-});
-//个人中心
-var person = sequelize.define('person', {
-		HeadImage:Sequelize.STRING,
-    	Name:Sequelize.STRING
+	openid: Sequelize.STRING,
+	name: Sequelize.STRING,
+	totalmoney: Sequelize.STRING,
+	headimage: Sequelize.STRING,
+	totalnum: Sequelize.INTEGER
 });
 
-//订单
-var order = sequelize.define('order', {
-	userId: Sequelize.INTEGER,
-	totalCost: Sequelize.STRING,
-	totalNum: Sequelize.STRING,
-	isInvoice: Sequelize.STRING,
-	message: Sequelize.STRING,
-	state: Sequelize.STRING,
-	productId: Sequelize.STRING,
-	productNum: Sequelize.STRING
+//红包列表接口
+var redpacket = sequelize.define('redpacket', {
+	userid: Sequelize.INTEGER,
+	openid: Sequelize.STRING,
+	nickname: Sequelize.STRING,
+	headimage: Sequelize.STRING,
+	sex: Sequelize.STRING,
+	money: Sequelize.STRING
 });
 
-//评论
-var comments = sequelize.define('comment', {
-		orderId:Sequelize.INTEGER,
-		userId:Sequelize.INTEGER,
-		content:Sequelize.STRING,
-		describeScore:Sequelize.STRING,
-		logisticsScore:Sequelize.STRING,
-		serviceScore:Sequelize.STRING
-});
 
-//浏览记录
-var browselog = sequelize.define('browselog', {
-	userId: Sequelize.INTEGER,
-	productId: Sequelize.INTEGER
-});
-
-//浏览记录
-var collectionlog = sequelize.define('collectionlog', {
-	userId: Sequelize.INTEGER,
-	productId: Sequelize.INTEGER
-});
-
-//订单用户视图
-var orderUser = sequelize.define('orderUser', {
-	phone:Sequelize.STRING,
-	email:Sequelize.STRING,
-	password:Sequelize.STRING,
-	headImage:Sequelize.STRING,
-	username:Sequelize.STRING,
-	gender:Sequelize.STRING,
-	address:Sequelize.STRING,
-	userId: Sequelize.INTEGER,
-	totalCost: Sequelize.STRING,
-	totalNum: Sequelize.STRING,
-	isInvoice: Sequelize.STRING,
-	message: Sequelize.STRING,
-	state: Sequelize.STRING,
-	productId: Sequelize.STRING,
-	productNum: Sequelize.STRING
-});
-
-var models={
-		user:user,
-		product:product,
-		shopCar:shopCar,
-		person:person,
-		order:order,
-		comments:comments,
-		browselog:browselog,
-		collectionlog:collectionlog,
-		orderUser: orderUser
+var models = {
+	user: user,
+	redpacket: redpacket
 }
 
-module.exports=models;
+module.exports = models;
