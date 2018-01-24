@@ -7,6 +7,7 @@ async function getUser(userid) {
 		}
 	})
 	
+	if(!_user.length) {return null}
 	return _user[0].dataValues;
 }
 

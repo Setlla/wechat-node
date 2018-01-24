@@ -12,6 +12,12 @@ function getOnePacket() {
 async function getOne(req, res) {
 	let data = req.body;
 
+	if(!data.openid || !data.userid) {
+		res.send({
+			isSuccess: false,
+			result: '网速太慢，没抢到红包哦'
+		})
+	}
 	//获取红包前判断权限  post请求  参数 当前用户id和当前抢红包的用户openid
 	let result = await redpacketUtil.isAuth(data.userid, data.openid);
 
@@ -27,13 +33,6 @@ async function getOne(req, res) {
 			sex: data.sex,
 			money: money
 		})
-
-		//更新红包总金额和个数
-		let userObj = await userUtil.getUser(data.userid);
-		userObj.totalmoney = Number(userObj.totalmoney) + Number(money);
-		userObj.totalnum += 1;
-		
-		await userUtil.updateUser(userObj);
 
 		res.send({
 			isSuccess: true,
@@ -60,6 +59,13 @@ async function getList(req, res) {
 
 	let _user = await userUtil.getUser(req.body.userid);
 
+	if(!_user) {
+		res.send({
+			isSuccess: false,
+			result: '您没参与这次活动'
+		})
+	}
+
 	data.user = _user;
 
 	let _redpackets = await redpacket.findAll({
@@ -67,13 +73,23 @@ async function getList(req, res) {
 			userid: req.body.userid
 		}
 	})
-
 	data.redpackets = _redpackets;
-
+	
+	getTotal(_redpackets, data.user);
+	
 	res.send({
 		isSuccess: true,
 		result: data
 	})
+}
+
+function getTotal(_redpackets, user) {
+	let totalmoney = 0;
+	for(var i = 0; i < _redpackets.length; i++) {
+		totalmoney += Number(_redpackets[i].dataValues.money)
+	}
+	user.totalmoney = Number(totalmoney).toFixed(2);
+	user.totalnum = _redpackets.length;
 }
 
 module.exports = {
