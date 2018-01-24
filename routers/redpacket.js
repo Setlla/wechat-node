@@ -71,7 +71,11 @@ async function getList(req, res) {
 	let _redpackets = await redpacket.findAll({
 		where: {
 			userid: req.body.userid
-		}
+		},
+		order: [
+			['updatedAt', 'DESC']
+		]
+		
 	})
 	data.redpackets = _redpackets;
 	

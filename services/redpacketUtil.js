@@ -44,16 +44,13 @@ async function checkAuth(userid, openid) {
 
 //判断红包个数是否已达200个。已达返回true
 async function checkNum(userid) {
-	let _user = await user.findAll({
+	let obj = await redpacket.findAndCountAll({
 		where: {
-			id: userid,
-			totalnum: {
-				$gte: 200
-			}
+			userid: userid
 		}
 	})
 	
-	let result = _user[0] ? true : false;
+	let result = (obj.count >= 200) ? true : false;
 	return result;
 }
 
