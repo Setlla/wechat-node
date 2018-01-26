@@ -72,9 +72,9 @@ async function getList(req, res) {
 		where: {
 			userid: req.body.userid
 		},
-		order: [
+		/*order: [
 			['updatedAt', 'DESC']
-		]
+		]*/
 		
 	})
 	data.redpackets = _redpackets;
