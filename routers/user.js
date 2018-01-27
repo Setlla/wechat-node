@@ -15,7 +15,7 @@ function add(req, res) {
 		},
 		defaults: {
 			openid: data.openid,
-			name: data.name,
+			name: encodeURIComponent(data.name),
 			headimage: data.headimgurl
 		}
 	}).then(function(result) {

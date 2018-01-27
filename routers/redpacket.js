@@ -28,7 +28,7 @@ async function getOne(req, res) {
 		let _redpacket = await redpacket.create({
 			userid: data.userid,
 			openid: data.openid,
-			nickname: data.nickname,
+			nickname: encodeURIComponent(data.nickname),
 			headimage: data.headimgurl,
 			sex: data.sex,
 			money: money
@@ -65,7 +65,9 @@ async function getList(req, res) {
 			result: '您没参与这次活动'
 		})
 	}
-
+	
+	_user.name = decodeURIComponent(_user.name);
+	
 	data.user = _user;
 
 	let _redpackets = await redpacket.findAll({
@@ -90,7 +92,8 @@ async function getList(req, res) {
 function getTotal(_redpackets, user) {
 	let totalmoney = 0;
 	for(var i = 0; i < _redpackets.length; i++) {
-		totalmoney += Number(_redpackets[i].dataValues.money)
+		totalmoney += Number(_redpackets[i].dataValues.money);
+		_redpackets[i].dataValues.nickname = decodeURIComponent(_redpackets[i].dataValues.nickname);
 	}
 	user.totalmoney = Number(totalmoney).toFixed(2);
 	user.totalnum = _redpackets.length;
