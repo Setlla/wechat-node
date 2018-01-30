@@ -12,20 +12,20 @@ async function getToken() {
 		url: `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appid}&secret=${secret}`,
 	})
 	return result.data.access_token
-//	cache.put('token', result.data.access_token);
 }
 
-//
-async function getTicket(url) {
+function getTicket(url) {
+	return sign(cache.get('ticket'), url);
+}
+
+async function getTicketTime() {
 	var access_token = await getToken();
-//	let token = cache.get('token');
 	
 	var result = await axios({
 		method: 'get',
 		url: `https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`,
 	})
-	
-	return sign(result.data.ticket, url);
+	cache.put('ticket', result.data.ticket);	
 }
 
 
@@ -56,5 +56,6 @@ async function getUserInfo(code) {
 
 module.exports = {
 	getUserInfo: getUserInfo,
-	getTicket: getTicket
+	getTicket: getTicket,
+	getTicketTime: getTicketTime
 }

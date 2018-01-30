@@ -17,33 +17,35 @@ async function getOne(req, res) {
 			isSuccess: false,
 			result: '网速太慢，没抢到红包哦'
 		})
-	}
-	//获取红包前判断权限  post请求  参数 当前用户id和当前抢红包的用户openid
-	let result = await redpacketUtil.isAuth(data.userid, data.openid);
-
-	if(!result) {
-		let money = (Math.random() * 5).toFixed(2);
-		//存入redpacket
-
-		let _redpacket = await redpacket.create({
-			userid: data.userid,
-			openid: data.openid,
-			nickname: encodeURIComponent(data.nickname),
-			headimage: data.headimgurl,
-			sex: data.sex,
-			money: money
-		})
-
-		res.send({
-			isSuccess: true,
-			result: _redpacket
-		})
-
 	} else {
-		res.send({
-			isSuccess: false,
-			result: result
-		})
+		//获取红包前判断权限  post请求  参数 当前用户id和当前抢红包的用户openid
+		
+		let result = await redpacketUtil.isAuth(data.userid, data.openid);
+
+		if(!result) {
+			let money = (Math.random() * 5).toFixed(2);
+			//存入redpacket
+
+			let _redpacket = await redpacket.create({
+				userid: data.userid,
+				openid: data.openid,
+				nickname: encodeURIComponent(data.nickname),
+				headimage: data.headimgurl,
+				sex: data.sex,
+				money: money
+			})
+
+			res.send({
+				isSuccess: true,
+				result: _redpacket
+			})
+
+		} else {
+			res.send({
+				isSuccess: false,
+				result: result
+			})
+		}
 	}
 }
 
@@ -65,9 +67,9 @@ async function getList(req, res) {
 			result: '您没参与这次活动'
 		})
 	}
-	
+
 	_user.name = decodeURIComponent(_user.name);
-	
+
 	data.user = _user;
 
 	let _redpackets = await redpacket.findAll({
@@ -77,12 +79,12 @@ async function getList(req, res) {
 		/*order: [
 			['updatedAt', 'DESC']
 		]*/
-		
+
 	})
 	data.redpackets = _redpackets;
-	
+
 	getTotal(_redpackets, data.user);
-	
+
 	res.send({
 		isSuccess: true,
 		result: data
